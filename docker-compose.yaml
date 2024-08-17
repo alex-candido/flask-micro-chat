@@ -1,0 +1,32 @@
+version: '3.7'
+
+services:
+  chat_app:
+    build: .
+    ports:
+      - 8000:8000
+    volumes:
+      - .:/home/python/app
+    command: ./.docker/start-app.sh
+    depends_on:
+      - chat_pg
+      
+  chat_pg:
+    image: postgres:16.3
+    ports:
+      - 5435:5432
+    environment:
+      POSTGRES_USER: microchat
+      POSTGRES_PASSWORD: microchat
+      POSTGRES_DB: microchat
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8081:8080
+
+volumes:
+  pg_data:

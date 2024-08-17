@@ -1,6 +1,0 @@
-# Web
-flask
-flask_restx
-
-#Utils
-python-dotenv

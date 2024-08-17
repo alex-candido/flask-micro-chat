@@ -8,4 +8,4 @@ users_controller = Blueprint("AdminUsersController", __name__, template_folder=_
 
 @users_controller.route("/users", methods=["GET", "POST"])
 def index():
-  return "users/index"
+  return __template_folder

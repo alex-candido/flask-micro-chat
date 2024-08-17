@@ -1,0 +1,34 @@
+[project]
+name = "flask_micro_chat"
+version = "1.0"
+description = ""
+authors = [
+    {name = "Alex Candido", email = "alex.candido.tec@gmail.com"},
+]
+dependencies = [
+  "flask>=3.0.3",
+  "flask-restx>=1.3.0",
+  "prisma>=0.15.0",
+  "python-dotenv>=1.0.1",
+  "pydantic>=2.8.2",
+]
+
+requires-python = ">=3.10"
+license = {text = "MIT"}
+[project.optional-dependencies]
+
+[tool.pdm]
+[tool.pdm.dev-dependencies]
+dev = [
+    "autopep8>=1.6.0",
+    "pylint>=2.13.0",
+    "pytest>=7.1.1",
+    "pytest-cov>=3.0.0",
+    "faker>=15.0.0",
+]
+[tool.pdm.scripts]
+pylint = "pylint ./src"
+runserver = "flask run"
+[build-system]
+requires = ["pdm-pep517"]
+build-backend = "pdm.pep517.api"

@@ -1,5 +1,5 @@
 from flask_app.server import create_app
-from flask_app.__share.config import enviroment
+from flask_app.__share.config.envs import enviroment
 
 enviroment.load()
 app = create_app()
