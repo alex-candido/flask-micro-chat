@@ -1,0 +1,97 @@
+
+micro-chat
+
+src/
+├── flask_app/
+│   ├── @share/
+│   │   ├── containers/
+│   │   │   └── __init__.py
+│   │   ├── settings/
+│   │   │   ├── config.py
+│   │   │   └── __init__.py
+│   │   ├── database/
+│   │   │   ├── db.py
+│   │   │   └── __init__.py
+│   │   ├── server/
+│   │   │   ├── server.py
+│   │   │   └── __init__.py
+│   ├── modules/
+|   |   ├── api/
+|   |   |   ├── auth/
+|   │   │   │   ├── controllers/
+|   │   │   │   │   ├── user_controller.py
+|   │   │   │   │   └── __init__.py
+|   │   │   │   ├── routes/
+|   │   │   │   │   ├── user_routes.py
+|   │   │   │   │   └── __init__.py
+|   │   │   │   └── services/
+|   │   │   │       ├── user_service.py
+|   │   │   │       └── __init__.py
+|   |   |   ├── users/
+|   │   │   │   ├── controllers/
+|   │   │   │   │   ├── user_controller.py
+|   │   │   │   │   └── __init__.py
+|   │   │   │   ├── routes/
+|   │   │   │   │   ├── user_routes.py
+|   │   │   │   │   └── __init__.py
+|   │   │   │   └── services/
+|   │   │   │       ├── user_service.py
+|   │   │   │       └── __init__.py
+|   |   ├── admin/
+|   |   |   ├── auth/
+|   │   │   │   ├── controllers/
+|   │   │   │   │   ├── auth_controller.py
+|   │   │   │   │   └── __init__.py
+|   │   │   │   ├── routes/
+|   │   │   │   │   ├── auth_routes.py
+|   │   │   │   │   └── __init__.py
+|   │   │   │   ├── services/
+|   │   │   │   │   ├── auth_service.py
+|   │   │   │   │   └── __init__.py
+│   │   │   |   └── views/
+|   |   |   |       ├── sign_in_auth.html
+│   │   │   |       ├── sign_up_auth.html
+│   │   │   |       ├── change_password_auth.html
+│   │   │   |       └── reset_password.html
+│   │   |   ├── users/
+|   │   │   │   ├── controllers/
+|   │   │   │   │   ├── user_controller.py
+|   │   │   │   │   └── __init__.py
+|   │   │   │   ├── routes/
+|   │   │   │   │   ├── user_routes.py
+|   │   │   │   │   └── __init__.py
+|   │   │   │   ├── services/
+|   │   │   │   │   ├── user_service.py
+|   │   │   │   │   └── __init__.py
+│   │   │   |   └── views/
+|   |   |   |       ├── index_users.html
+│   │   │   |       ├── create_users.html
+│   │   │   |       ├── show_users.html
+│   │   │   |       └── edit_user.html
+│   ├── app.py
+│   └── __init__.py
+│
+├── core/
+│   ├── __seedwork/
+│   │   ├── application/
+│   │   │   └── __init__.py
+│   │   ├── domain/
+│   │   │   └── __init__.py
+│   │   └── infra/
+│   │       └── __init__.py
+│   ├── modules/
+│   │   ├── auth/
+│   │   │   ├── application/
+│   │   │   │   └── __init__.py
+│   │   │   ├── domain/
+│   │   │   │   └── __init__.py
+│   │   │   ├── infra/
+│   │   │   │   └── __init__.py
+│   │   ├── users/
+│   │   │   ├── application/
+│   │   │   │   └── __init__.py
+│   │   │   ├── domain/
+│   │   │   │   └── __init__.py
+│   │   │   ├── infra/
+│   │   │   │   └── __init__.py
+│   └── __init__.py
