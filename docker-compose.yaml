@@ -1,0 +1,32 @@
+version: '3.9'
+
+services:
+  app:
+    build: .
+    container_name: flask-micro-chat-app
+    command: ./.docker/start-app.sh
+    volumes:
+      - .:/home/python/app
+    ports:
+      - 8000:8000
+  db:
+    image: postgres:16.3
+    restart: always
+    shm_size: 128mb
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+    environment:
+      POSTGRES_USER: micro-chat
+      POSTGRES_PASSWORD: root
+
+    ports:
+      - 5435:5432
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8081:8080
+
+volumes:
+  pgdata:
