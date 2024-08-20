@@ -6,17 +6,20 @@ authors = [
     {name = "Alex Candido", email = "alex.candido.tec@gmail.com"},
 ]
 dependencies = [
-  "flask>=3.0.3",
-  "flask-restx>=1.3.0",
-  "prisma>=0.15.0",
-  "python-dotenv>=1.0.1",
-  "pydantic>=2.8.2",
+    "flask>=3.0.3",
+    "flask-restx>=1.3.0",
+    "prisma>=0.15.0",
+    "python-dotenv>=1.0.1",
+    "pydantic>=2.8.2",
+    "hashids>=1.3.1",
+    "flask-debugToolbar>=0.15.1",
+    "flask-socketio>=5.3.6",
+    "python-socketio>=5.11.3",
+    "dataclasses>=0.6",
 ]
 
 requires-python = ">=3.10"
 license = {text = "MIT"}
-[project.optional-dependencies]
-
 [tool.pdm]
 [tool.pdm.dev-dependencies]
 dev = [

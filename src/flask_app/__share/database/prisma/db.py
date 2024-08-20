@@ -4,6 +4,7 @@ from prisma import Prisma, register, get_client
 from flask import Flask, render_template, request, flash, redirect, url_for, g
 
 class PrismaModule():
+    
     def get_db() -> Prisma:
         try:
             return g.db
@@ -11,6 +12,7 @@ class PrismaModule():
             g.db = db = Prisma()
             db.connect()
             return db
+
 
     def close_db(exc: Optional[Exception] = None) -> None:  # noqa: ARG001
         client = get_client()

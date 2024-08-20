@@ -12,7 +12,8 @@ RUN useradd -ms /bin/bash python
 RUN pip install pdm
 
 COPY .docker/start-app.sh /home/python/app/.docker/start-app.sh
-RUN chmod +x /home/python/app/.docker/start-app.sh
+RUN chmod +x /home/python/app/.docker/start-app.sh && \
+  chown python:python /home/python/app/.docker/start-app.sh
 
 USER python
 
@@ -20,4 +21,4 @@ WORKDIR /home/python/app
 
 ENV PYTHONPATH=${PYTHONPATH}/home/python/app/src
 
-CMD ["./home/python/app/.docker/start-app.sh"]
+CMD ["./.docker/start-app.sh"]

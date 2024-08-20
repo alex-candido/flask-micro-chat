@@ -1,0 +1,41 @@
+User
+│
+├── [One-to-Many] Simulation
+│   ├── [One-to-One] Exam
+│   │   ├── [One-to-Many] Question
+│   │   │   ├── [One-to-Many] QuestionOption
+│   │   │   └── [One-to-Many] UserAnswer
+│   │   └── [One-to-Many] Simulation
+│   ├── [One-to-One] Statistics
+│   └── [One-to-Many] UserAnswer
+│
+└── [One-to-Many] Log
+
+Exam
+│
+├── [One-to-Many] Question
+│   ├── [One-to-Many] QuestionOption
+│   └── [One-to-Many] UserAnswer
+└── [One-to-Many] Simulation
+
+Question
+│
+├── [One-to-Many] QuestionOption
+└── [One-to-Many] UserAnswer
+
+QuestionOption
+│
+└── [Many-to-One] Question
+
+UserAnswer
+│
+├── [Many-to-One] Question
+└── [Many-to-One] Simulation
+
+Statistics
+│
+└── [One-to-One] Simulation
+
+Log
+│
+└── [Many-to-One] User

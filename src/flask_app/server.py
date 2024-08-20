@@ -1,7 +1,10 @@
-from flask import Flask
+import os
+
+from typing import Optional
+from flask import Flask, g
 from flask_restx import Api
-from prisma import Prisma, register
-from hashids import Hashids
+from prisma import Prisma, register, get_client
+from flask_debugtoolbar import DebugToolbarExtension
 
 from flask_app.__share.database.prisma.db import PrismaModule
 
@@ -10,19 +13,19 @@ from flask_app.modules.__api.v1.users.routes.users_routes import api_users_route
 
 def create_app():
 
-  get_db = PrismaModule.get_db
-  close_db = PrismaModule.close_db
-  
-  register(get_db)
+    get_db = PrismaModule.get_db
+    close_db = PrismaModule.close_db
+    
+    register(get_db)
 
-  app = Flask(__name__)
-  app.teardown_appcontext(close_db)
+    app = Flask(__name__)
+    app.teardown_appcontext(close_db)
+    
+    app.config['SECRET_KEY'] = os.getenv("SECRET_KEY")
 
-  hashids = Hashids(min_length=4, salt=app.config['SECRET_KEY'])
+    toolbar = DebugToolbarExtension(app)
 
-  v1 = Api(app= app, doc="/api/v1", version=1, prefix="/api/v1")
-  
-  admin_users_routes(app)
-  api_users_routes(v1)
+    api_users_routes(app)  
+    admin_users_routes(app)
 
-  return app
+    return app

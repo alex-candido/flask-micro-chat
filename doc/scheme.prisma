@@ -1,0 +1,194 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum UserRole {
+  ADMIN
+  EDITOR
+  STUDENT
+}
+
+enum UserStatus {
+  ACTIVE
+  INACTIVE
+}
+
+model User {
+  id         String  @id @default(uuid()) @map("_id")
+  email      String  @unique @db.VarChar(150)
+  username   String  @unique @db.VarChar(50)
+  full_name  String? @db.VarChar(100)
+  first_name String? @db.VarChar(100)
+  last_name  String? @db.VarChar(100)
+  password   String  @db.VarChar(255)
+
+  role   UserRole   @default(STUDENT)
+  status UserStatus @default(ACTIVE)
+
+  simulations Simulation[]
+  Log         Log[]
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+}
+
+enum SimulationStatus {
+  ACTIVE
+  INACTIVE
+}
+
+model Simulation {
+  id      String           @id @default(uuid()) @map("_id")
+  answers Json
+  score   Float
+  status  SimulationStatus @default(ACTIVE)
+
+  user_id String
+  exam_id String
+
+  user       User        @relation(fields: [user_id], references: [id])
+  exam       Exam        @relation(fields: [exam_id], references: [id])
+  statistics Statistics?
+
+  QuestionAnswer QuestionAnswer[]
+  UserAnswer     UserAnswer[]
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+}
+
+enum ExamStatus {
+  ACTIVE
+  INACTIVE
+}
+
+enum ExamPeriod {
+  FIRST_DAY
+  SECOND_DAY
+}
+
+enum ExamColor {
+  AZUL
+  AMARELO
+  ROSA
+  CINZA
+}
+
+enum ExamArea {
+  LINGUAGENS
+  MATEMATICA
+  CIENCIAS_HUMANAS
+  CIENCIAS_NATUREZA
+}
+
+model Exam {
+  id        String     @id @default(uuid()) @map("_id")
+  name      String
+  period    ExamPeriod
+  color     ExamColor
+  area      ExamArea
+  exam_date DateTime
+  status    ExamStatus @default(ACTIVE)
+
+  questions   Question[]
+  simulations Simulation[]
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+}
+
+model Question {
+  id             String      @id @default(uuid()) @map("_id")
+  number         Int
+  correct_answer OptionValue
+
+  exam_id String
+  exam    Exam   @relation(fields: [exam_id], references: [id])
+
+  user_answer UserAnswer?
+  options     QuestionOption[]
+
+  questionAnswer QuestionAnswer?
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+}
+
+enum OptionValue {
+  A
+  B
+  C
+  D
+  E
+}
+
+model QuestionOption {
+  id           String      @id @default(uuid()) @map("_id")
+  question_id  String
+  option_value OptionValue
+
+  question Question @relation(fields: [question_id], references: [id])
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+}
+
+model QuestionAnswer {
+  id              String @id @default(uuid()) @map("_id")
+  selected_option String
+
+  question_id String   @unique
+  question    Question @relation(fields: [question_id], references: [id])
+
+  simulationId String?
+  Simulation   Simulation? @relation(fields: [simulationId], references: [id])
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+}
+
+model UserAnswer {
+  id              String      @id @default(uuid()) @map("_id")
+  selected_option OptionValue
+
+  question_id   String @unique
+  simulation_id String
+
+  question   Question   @relation(fields: [question_id], references: [id])
+  simulation Simulation @relation(fields: [simulation_id], references: [id])
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+}
+
+model Statistics {
+  id         String   @id @default(uuid()) @map("_id")
+  subject    ExamArea
+  score      Float
+  percentile Float
+
+  simulation_id String     @unique
+  simulation    Simulation @relation(fields: [simulation_id], references: [id])
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+}
+
+enum LogLevel {
+  INFO
+  WARNING
+  ERROR
+}
+
+model Log {
+  id      String   @id @default(uuid()) @map("_id")
+  message String
+  level   LogLevel
+
+  user_id String?
+  user    User?   @relation(fields: [user_id], references: [id])
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+}

@@ -3,6 +3,12 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+generator client {
+  provider             = "prisma-client-py"
+  interface            = "sync"
+  recursive_type_depth = 5
+}
+
 enum UserRole {
   ADMIN
   EDITOR
@@ -19,7 +25,7 @@ model User {
 
   email      String  @unique @db.VarChar(150)
   username   String  @unique @db.VarChar(50)
-  fullname   String  @db.VarChar(100)
+  fullname   String? @db.VarChar(100)
   first_name String? @db.VarChar(100)
   last_name  String? @db.VarChar(100)
   password   String  @db.VarChar(255)
@@ -28,7 +34,7 @@ model User {
   role   UserRole   @default(CLIENT)
   status UserStatus @default(ACTIVE)
 
-  rooms Room[]
+  rooms    Room[]
   messages Message[]
 
   created_at DateTime @default(now())
@@ -52,9 +58,9 @@ model Room {
   name String? @db.VarChar(100)
 
   status RoomStatus @default(ACTIVE)
-  type   RoomType  @default(PRIVATE)
+  type   RoomType   @default(PRIVATE)
 
-  user_id String 
+  user_id String
   user    User   @relation(fields: [user_id], references: [id])
 
   messages Message[]
@@ -74,10 +80,10 @@ model Member {
 
   status MemberStatus @default(ACTIVE)
 
-  user_id    String 
+  user_id    String
   channel_id String
 
-  user    User    @relation(fields: [user_id], references: [id])
+  user User @relation(fields: [user_id], references: [id])
   room Room @relation(fields: [channel_id], references: [id])
 
   created_at DateTime @default(now())
@@ -97,10 +103,10 @@ model Message {
 
   status MessageStatus @default(ACTIVE)
 
-  user_id    String 
-  channel_id String 
+  user_id    String
+  channel_id String
 
-  user    User?    @relation(fields: [user_id], references: [id])
+  user User? @relation(fields: [user_id], references: [id])
   room Room? @relation(fields: [channel_id], references: [id])
 
   created_at DateTime @default(now())

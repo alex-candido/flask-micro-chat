@@ -2,6 +2,8 @@
 
 pdm install
 
-pdm runserver
+pdm run prisma generate
+
+pdm run prisma migrate dev
 
 tail -f /dev/null
