@@ -1,0 +1,108 @@
+datasource db {
+  provider = "postgres"
+  url      = env("DATABASE_URL")
+}
+
+enum UserRole {
+  ADMIN
+  EDITOR
+  CLIENT
+}
+
+enum UserStatus {
+  ACTIVE
+  INACTIVE
+}
+
+model User {
+  id String @id @default(uuid()) @map("_id")
+
+  email      String  @unique @db.VarChar(150)
+  username   String  @unique @db.VarChar(50)
+  fullname   String  @db.VarChar(100)
+  first_name String? @db.VarChar(100)
+  last_name  String? @db.VarChar(100)
+  password   String  @db.VarChar(255)
+  avatar_url String?
+
+  role   UserRole   @default(CLIENT)
+  status UserStatus @default(ACTIVE)
+
+  channels Channel[]
+  messages Message[]
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+  Member     Member[]
+}
+
+enum ChannelStatus {
+  ACTIVE
+  INACTIVE
+}
+
+enum ChannelType {
+  GROUP
+  INDIVIDUAL
+}
+
+model Channel {
+  id String @id @default(uuid()) @map("_id")
+
+  name String? @db.VarChar(100)
+
+  status ChannelStatus @default(ACTIVE)
+  type   ChannelType   @default(INDIVIDUAL)
+
+  user_id String 
+  user    User   @relation(fields: [user_id], references: [id])
+
+  messages Message[]
+  members  Member[]
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+}
+
+enum MemberStatus {
+  ACTIVE
+  INACTIVE
+}
+
+model Member {
+  id String @id @default(uuid()) @map("_id")
+
+  status MemberStatus @default(ACTIVE)
+
+  user_id    String 
+  channel_id String
+
+  user    User    @relation(fields: [user_id], references: [id])
+  Channel Channel @relation(fields: [channel_id], references: [id])
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+}
+
+enum MessageStatus {
+  ACTIVE
+  INACTIVE
+}
+
+model Message {
+  id String @id @default(uuid()) @map("_id")
+
+  content   String  @db.Text
+  image_url String? @db.VarChar(255)
+
+  status MessageStatus @default(ACTIVE)
+
+  user_id    String 
+  channel_id String 
+
+  user    User?    @relation(fields: [user_id], references: [id])
+  channel Channel? @relation(fields: [channel_id], references: [id])
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+}

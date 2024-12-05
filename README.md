@@ -1,13 +1,20 @@
-Step1: Enter the backend directory and create and activate your environment:
+Step1: 
 
-For mac/unix users:
+     console: docker-compose up -d --build
+     console: docker-compose exec -u root chat_app bash
 
-    install: sudo apt install python3-venv
+Step2: 
 
-    create:  python3 -m venv venv
-    
-    activate: source venv/bin/activate
+    console: pdm runserver
 
-Step2: Then install the requirements using:
+Step3: 
 
-    install: pip install -r requirements.txt
+    web: http://localhost:8000/
+
+step4:
+
+    git config --global --add safe.directory /home/python/app
+
+step5:
+
+    chmod +x .docker/start-app.sh

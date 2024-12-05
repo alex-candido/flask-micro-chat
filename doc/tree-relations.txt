@@ -1,0 +1,44 @@
+User
+│
+├── channels (Many-to-Many) ──> Channel
+│   │
+│   └── Member
+│       ├── user_id (Foreign Key) → User
+│       └── channel_id (Foreign Key) → Channel
+│
+├── messages (One-to-Many) ──> Message
+│   │
+│   └── user_id (Foreign Key) → User
+│   └── channel_id (Foreign Key) → Channel
+│
+└── Member (Many-to-Many)
+    ├── user_id (Foreign Key) → User
+    └── channel_id (Foreign Key) → Channel
+
+Channel
+│
+├── user (One-to-One) ──> User
+│   └── user_id (Foreign Key) → User
+│
+├── messages (One-to-Many) ──> Message
+│   └── channel_id (Foreign Key) → Channel
+│
+└── members (Many-to-Many) ──> Member
+    ├── user_id (Foreign Key) → User
+    └── channel_id (Foreign Key) → Channel
+
+Message
+│
+├── user (Many-to-One) ──> User
+│   └── user_id (Foreign Key) → User
+│
+└── channel (Many-to-One) ──> Channel
+    └── channel_id (Foreign Key) → Channel
+
+Member
+│
+├── user (Many-to-One) ──> User
+│   └── user_id (Foreign Key) → User
+│
+└── channel (Many-to-One) ──> Channel
+    └── channel_id (Foreign Key) → Channel
